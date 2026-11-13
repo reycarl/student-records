@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2 style="margin-top:0">{{ 'Edit' if student else 'Add' }} Student</h2>
+  <form method="post">
+    <div class="form-grid">
+      <div>
+        <label>Student No.</label>
+        <input name="student_no" value="{{ student.student_no if student }}" required>
+      </div>
+      <div>
+        <label>Course</label>
+        <input name="course" value="{{ student.course if student }}" required>
+      </div>
+      <div>
+        <label>First Name</label>
+        <input name="first_name" value="{{ student.first_name if student }}" required>
+      </div>
+      <div>
+        <label>Last Name</label>
+        <input name="last_name" value="{{ student.last_name if student }}" required>
+      </div>
+      <div>
+        <label>Year Level</label>
+        <input name="year_level" type="number" min="1" max="6" value="{{ student.year_level if student }}" required>
+      </div>
+      <div>
+        <label>Email</label>
+        <input name="email" type="email" value="{{ student.email if student }}">
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn">Save</button>
+      <a class="btn light" href="{{ url_for('index') }}">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

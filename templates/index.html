@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="stats">
+  <div class="stat"><div class="num">{{ students|length }}</div>
+    <div class="label">{{ 'Matching students' if q else 'Total students' }}</div></div>
+</div>
+<div class="card">
+  <form method="get" class="toolbar">
+    <input name="q" value="{{ q }}" placeholder="Search by name, student no. or course">
+    <button class="btn">Search</button>
+    {% if q %}<a class="btn light" href="{{ url_for('index') }}">Clear</a>{% endif %}
+    <a class="btn" href="{{ url_for('add') }}">+ Add Student</a>
+  </form>
+  {% if students %}
+  <div class="table-wrap">
+    <table>
+      <tr><th>Student</th><th>Student No.</th><th>Course</th><th>Year</th><th>Actions</th></tr>
+      {% for s in students %}
+      <tr>
+        <td>
+          <div class="person">
+            <div class="avatar">{{ s.first_name[0]|upper }}{{ s.last_name[0]|upper }}</div>
+            <div>{{ s.last_name }}, {{ s.first_name }}<small>{{ s.email or '' }}</small></div>
+          </div>
+        </td>
+        <td>{{ s.student_no }}</td>
+        <td>{{ s.course }}</td>
+        <td><span class="badge">Year {{ s.year_level }}</span></td>
+        <td>
+          <div class="actions">
+            <a class="btn small light" href="{{ url_for('edit', sid=s.id) }}">Edit</a>
+            <form method="post" action="{{ url_for('delete', sid=s.id) }}"
+                  onsubmit="return confirm('Delete this student?')">
+              <button class="btn small danger">Delete</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% else %}
+  <div class="empty">No student records found.</div>
+  {% endif %}
+</div>
+{% endblock %}
